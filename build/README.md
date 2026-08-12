@@ -1,6 +1,6 @@
-# Building Euro-Office DesktopEditors
+# Building Transfera-Office DesktopEditors
 
-This directory holds everything needed to build **Euro-Office DesktopEditors**
+This directory holds everything needed to build **Transfera-Office DesktopEditors**
 (a fork of ONLYOFFICE DesktopEditors) from source, on Linux and Windows.
 
 If you just want to build, go straight to your platform:
@@ -19,7 +19,7 @@ real code is in submodules — `core`, `core-fonts`, `desktop-apps`, `desktop-sd
 **must** check them out before building:
 
 ```sh
-git clone https://github.com/Euro-Office/DesktopEditors.git
+git clone https://github.com/Transfera-Office/DesktopEditors.git
 cd DesktopEditors
 git submodule update --init --recursive
 ```
@@ -108,7 +108,7 @@ locally:
 | --------------------------------- | ---------------------------------------- | ---------------------- |
 | `PRODUCT_VERSION`                 | marketing version                        | `9.3.1`                |
 | `BUILD_NUMBER`                    | build identifier                         | `dev.1`                |
-| `COMPANY_NAME` / `PRODUCT_NAME`   | shown in the app's About page            | `Euro-Office` / `DesktopEditors` |
+| `COMPANY_NAME` / `PRODUCT_NAME`   | shown in the app's About page            | `Transfera-Office` / `DesktopEditors` |
 
 ## Where to go next
 
