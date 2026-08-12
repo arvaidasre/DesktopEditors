@@ -168,73 +168,76 @@ jobs:
           compression-level: 0
 
 
-  crosscompile-3rdparty-arm64:
-    runs-on: windows-2022                 # x64 host that cross-compiles to arm64
-    env:
-      PYTHONUTF8: "1"
-      DEPOT_TOOLS_WIN_TOOLCHAIN: "0"      # V8: use the locally installed VS, not Google's toolchain
-      NEXTCLOUD_USER: ${{ secrets.NEXTCLOUD_USER }}   # required: ensure_dep uploads here
-      NEXTCLOUD_PASS: ${{ secrets.NEXTCLOUD_PASS }}
- 
-    steps:
-      - name: Checkout fork repository (with submodules)
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          path: .
-          submodules: recursive
-          token: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN || github.token }}
- 
-      # windows-2022 ships VS2022 but not always the ARM64 *target* tools.
-      # clang-cl (V8) links arm64 against the arm64 Windows SDK libs;
-      # cl.exe (OpenSSL) needs the amd64_arm64 toolset. Add both.
-      - name: Add ARM64 build tools to Visual Studio
-        shell: pwsh
-        run: |
-          $vsWhere     = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
-          $vsInstaller = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vs_installer.exe"
-          $installPath = & $vsWhere -latest -products * -property installationPath
-          & $vsInstaller modify `
-            --installPath $installPath `
-            --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 `
-            --add Microsoft.VisualStudio.Component.VC.ATL.ARM64 `
-            --add Microsoft.VisualStudio.Component.VC.MFC.ARM64 `
-            --quiet --norestart --force
-          if ($LASTEXITCODE -notin @(0, 3010)) {
-            Write-Warning "vs_installer returned $LASTEXITCODE - components may already be present, continuing."
-          }
-
-          
-      # Sets the amd64_arm64 cross environment for all later steps, incl.
-      # VSCMD_ARG_TGT_ARCH=arm64 -- the single signal openssl, v8 and the
-      # cache tag all key off of.
-      - name: Set up arm64 cross MSVC environment
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: amd64_arm64
-
-
-      # ASSUMPTION: build_3rdparty.py can be told to *target* arm64 while
-      # running on an x64 host. If it only builds host-arch today, that's the
-      # gap to close first (see notes in chat: V8 -> target_cpu="arm64";
-      # OpenSSL -> Configure VC-WIN64-ARM under the amd64_arm64 MSVC env).
-      - name: Cross-compile arm64 third-party (V8, OpenSSL)
-        shell: pwsh
-        run: |
-          python ${{ github.workspace }}\core\Common\3dParty\build_3rdparty.py `
-            --only=v8,openssl `
-            "${{ github.workspace }}\workdir" `
-            "${{ github.workspace }}\installdir"
-
+  # ─────────────────────────────────────────────────────────────
+  # crosscompile-3rdparty-arm64 temporarily disabled — x64-only build for now.
+  # ─────────────────────────────────────────────────────────────
+#   crosscompile-3rdparty-arm64:
+#     runs-on: windows-2022                 # x64 host that cross-compiles to arm64
+#     env:
+#       PYTHONUTF8: "1"
+#       DEPOT_TOOLS_WIN_TOOLCHAIN: "0"      # V8: use the locally installed VS, not Google's toolchain
+#       NEXTCLOUD_USER: ${{ secrets.NEXTCLOUD_USER }}   # required: ensure_dep uploads here
+#       NEXTCLOUD_PASS: ${{ secrets.NEXTCLOUD_PASS }}
+#  
+#     steps:
+#       - name: Checkout fork repository (with submodules)
+#         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+#         with:
+#           path: .
+#           submodules: recursive
+#           token: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN || github.token }}
+#  
+#       # windows-2022 ships VS2022 but not always the ARM64 *target* tools.
+#       # clang-cl (V8) links arm64 against the arm64 Windows SDK libs;
+#       # cl.exe (OpenSSL) needs the amd64_arm64 toolset. Add both.
+#       - name: Add ARM64 build tools to Visual Studio
+#         shell: pwsh
+#         run: |
+#           $vsWhere     = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+#           $vsInstaller = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vs_installer.exe"
+#           $installPath = & $vsWhere -latest -products * -property installationPath
+#           & $vsInstaller modify `
+#             --installPath $installPath `
+#             --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 `
+#             --add Microsoft.VisualStudio.Component.VC.ATL.ARM64 `
+#             --add Microsoft.VisualStudio.Component.VC.MFC.ARM64 `
+#             --quiet --norestart --force
+#           if ($LASTEXITCODE -notin @(0, 3010)) {
+#             Write-Warning "vs_installer returned $LASTEXITCODE - components may already be present, continuing."
+#           }
+# 
+#           
+#       # Sets the amd64_arm64 cross environment for all later steps, incl.
+#       # VSCMD_ARG_TGT_ARCH=arm64 -- the single signal openssl, v8 and the
+#       # cache tag all key off of.
+#       - name: Set up arm64 cross MSVC environment
+#         uses: ilammy/msvc-dev-cmd@v1
+#         with:
+#           arch: amd64_arm64
+# 
+# 
+#       # ASSUMPTION: build_3rdparty.py can be told to *target* arm64 while
+#       # running on an x64 host. If it only builds host-arch today, that's the
+#       # gap to close first (see notes in chat: V8 -> target_cpu="arm64";
+#       # OpenSSL -> Configure VC-WIN64-ARM under the amd64_arm64 MSVC env).
+#       - name: Cross-compile arm64 third-party (V8, OpenSSL)
+#         shell: pwsh
+#         run: |
+#           python ${{ github.workspace }}\core\Common\3dParty\build_3rdparty.py `
+#             --only=v8,openssl `
+#             "${{ github.workspace }}\workdir" `
+#             "${{ github.workspace }}\installdir"
+# 
 
   build-windows:
-    runs-on: ${{ matrix.arch == 'arm64' && 'windows-11-arm' || 'windows-2022' }}
-    needs: [build-common, crosscompile-3rdparty-arm64]
+    runs-on: windows-2022
+    needs: build-common
     strategy:
       fail-fast: false
       matrix:
         arch:
           - amd64
-          - arm64
+          # - arm64  # disabled — x64-only build for now
     env:
       PYTHONUTF8: "1"
       NEXTCLOUD_USER: ${{ secrets.NEXTCLOUD_USER }}
