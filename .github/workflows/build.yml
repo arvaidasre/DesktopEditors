@@ -47,6 +47,8 @@ jobs:
           #  extra_bake_files: "./brands/nextcloud-office-brand/brand-server.hcl"
           #  extra_targets: "brand-icons,"
           #  cache_prefix: "nextcloud-office-"
+    env:
+      HAS_MIRROR_TOKEN: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN != '' }}
 
     steps:
       - name: Checkout fork repository (with submodules)
@@ -57,7 +59,7 @@ jobs:
           token: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN || github.token }}
 
       - name: Checkout nextcloud-office-brand repo
-        if: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN != '' }}
+        if: ${{ env.HAS_MIRROR_TOKEN == 'true' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: Euro-Office/nextcloud-office-brand
@@ -238,6 +240,7 @@ jobs:
       NEXTCLOUD_USER: ${{ secrets.NEXTCLOUD_USER }}
       NEXTCLOUD_PASS: ${{ secrets.NEXTCLOUD_PASS }}
       SCCACHE_GHA_ENABLED: "true"
+      HAS_MIRROR_TOKEN: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN != '' }}
 
     steps:
       # ---- orchestration / environment setup (stays in the workflow) ---- #
@@ -249,7 +252,7 @@ jobs:
           token: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN || github.token }}
 
       - name: Checkout nextcloud-office-brand repo
-        if: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN != '' }}
+        if: ${{ env.HAS_MIRROR_TOKEN == 'true' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: Euro-Office/nextcloud-office-brand
@@ -361,6 +364,8 @@ jobs:
           #  extra_bake_files: "./brands/nextcloud-office-brand/brand-server.hcl"
           #  extra_targets: "brand-icons,"
           #  cache_prefix: "nextcloud-office-"
+    env:
+      HAS_MIRROR_TOKEN: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN != '' }}
 
     steps:
       - name: Checkout fork repository (with submodules)
@@ -371,7 +376,7 @@ jobs:
           token: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN || github.token }}
 
       - name: Checkout nextcloud-office-brand repo
-        if: ${{ secrets.TRANSFERA_OFFICE_MIRROR_TOKEN != '' }}
+        if: ${{ env.HAS_MIRROR_TOKEN == 'true' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: Euro-Office/nextcloud-office-brand
