@@ -6,7 +6,7 @@ on:
 
 
 env:
-  REGISTRY: ghcr.io/transfera-office
+  REGISTRY: ghcr.io/${{ github.repository_owner }}
   CACHE_IMAGE_NAME: desktopeditors-build-cache
   PRODUCT_VERSION: 9.3.1
   BUILD_NUMBER: dev.1
