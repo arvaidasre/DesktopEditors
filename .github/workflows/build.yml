@@ -49,12 +49,20 @@ jobs:
           #  cache_prefix: "nextcloud-office-"
 
     steps:
-      - name: Checkout fork repository (with submodules)
+      - name: Checkout fork repository with mirror token (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN != '' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           path: .
           submodules: recursive
-          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN || github.token }}
+          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN }}
+
+      - name: Checkout fork repository (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN == '' }}
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: .
+          submodules: recursive
 
       - name: Checkout nextcloud-office-brand repo
         if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN != "" }}
@@ -175,12 +183,20 @@ jobs:
       NEXTCLOUD_PASS: ${{ secrets.NEXTCLOUD_PASS }}
  
     steps:
-      - name: Checkout fork repository (with submodules)
+      - name: Checkout fork repository with mirror token (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN != '' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           path: .
           submodules: recursive
-          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN || github.token }}
+          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN }}
+
+      - name: Checkout fork repository (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN == '' }}
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: .
+          submodules: recursive
  
       # windows-2022 ships VS2022 but not always the ARM64 *target* tools.
       # clang-cl (V8) links arm64 against the arm64 Windows SDK libs;
@@ -241,12 +257,20 @@ jobs:
 
     steps:
       # ---- orchestration / environment setup (stays in the workflow) ---- #
-      - name: Checkout fork repository (with submodules)
+      - name: Checkout fork repository with mirror token (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN != '' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           path: .
           submodules: recursive
-          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN || github.token }}
+          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN }}
+
+      - name: Checkout fork repository (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN == '' }}
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: .
+          submodules: recursive
 
       - name: Checkout nextcloud-office-brand repo
         if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN != "" }}
@@ -363,12 +387,20 @@ jobs:
           #  cache_prefix: "nextcloud-office-"
 
     steps:
-      - name: Checkout fork repository (with submodules)
+      - name: Checkout fork repository with mirror token (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN != '' }}
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           path: .
           submodules: recursive
-          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN || github.token }}
+          token: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN }}
+
+      - name: Checkout fork repository (with submodules)
+        if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN == '' }}
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: .
+          submodules: recursive
 
       - name: Checkout nextcloud-office-brand repo
         if: ${{ secrets.EURO_OFFICE_MIRROR_TOKEN != "" }}
