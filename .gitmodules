@@ -6,7 +6,7 @@
 	url = https://github.com/Euro-Office/desktop-sdk.git
 [submodule "core"]
 	path = core
-	url = https://github.com/Euro-Office/core.git
+	url = https://github.com/arvaidasre/core.git
 [submodule "sdkjs"]
 	path = sdkjs
 	url = https://github.com/Euro-Office/sdkjs.git
