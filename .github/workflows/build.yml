@@ -333,8 +333,8 @@ jobs:
             -ProductVersion "${{ env.PRODUCT_VERSION }}" `
             -Arch           ${{ matrix.arch == 'arm64' && 'arm64' || 'x64' }}  `
             -Target         standalone `
-            -CompanyName    Transfera-Office `
-            -ProductName    DesktopEditors
+            -CompanyName    "Transfera Office" `
+            -ProductName    "Transfera Office"
 
       # ---- collect outputs (stays in the workflow) ---- #
       - uses: actions/upload-artifact@v4

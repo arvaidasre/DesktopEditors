@@ -46,7 +46,7 @@ variable "BRANDING_DIR" {
 }
 
 variable "COMPANY_NAME" {
-  default = "Transfera-Office"
+  default = "Transfera Office"
 }
 
 variable "COMPANY_NAME_LOW" {
@@ -54,7 +54,7 @@ variable "COMPANY_NAME_LOW" {
 }
 
 variable "PRODUCT_NAME" {
-  default = "Desktop Editors"
+  default = "Transfera Office"
 }
 
 # ──────────────────────────────────────────────

@@ -74,8 +74,8 @@ param(
     [string]$BuildNumber    = 'dev.1',
     [string]$Arch           = 'x64',
     [string]$Target         = 'standalone',
-    [string]$CompanyName    = 'Transfera-Office',
-    [string]$ProductName    = 'DesktopEditors',
+    [string]$CompanyName    = 'Transfera Office',
+    [string]$ProductName    = 'Transfera Office',
     [string]$WinSdkVersion  = '10.0.19041.0',
 
     # Tool locations / install knobs.
@@ -426,7 +426,7 @@ Either download the 'common-files' CI artifact and pass -CommonDir, or rerun wit
         "-DCMAKE_TOOLCHAIN_FILE=$($env:VCPKG_ROOT)\scripts\buildsystems\vcpkg.cmake",
         '-DVCPKG_MANIFEST_MODE=ON',
         '-DVCPKG_MANIFEST_DIR=core',
-        '-DABOUT_PAGE_APP_NAME=Desktop Editors'
+        '-DABOUT_PAGE_APP_NAME=Transfera Office'
     )
     # sccache caches MSVC object files by content hash and (with
     # SCCACHE_GHA_ENABLED=true) persists them in the GitHub Actions cache, so a
